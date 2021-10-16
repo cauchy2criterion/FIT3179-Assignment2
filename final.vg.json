@@ -1,0 +1,104 @@
+{
+  "$schema": "https://vega.github.io/schema/vega-lite/v5.json",
+  "data": { "url": "yearly.csv" },
+  "title": "Global Energy Consumption of Different Energy Sources over 1960-2019",
+  "width": 600,
+  "height": 400,
+  "encoding": { "x": { "field": "year", "type": "temporal", "title": "Year" } },
+  "layer": [
+    {
+      "transform": [{ "filter": "datum.consumption > 1" }],
+      "encoding": {
+        "color": {
+          "field": "source",
+          "type": "nominal",
+          "title": "Energy Source"
+        },
+        "y": {
+          "field": "consumption",
+          "type": "quantitative",
+          "title": "Global Energy Consumed (TWh)",
+          "scale": { "type": "log", "domain": [1, 350000] }
+        }
+      },
+      "layer": [
+        { "mark": "line", "clip": true },
+        {
+          "transform": [{ "filter": { "param": "hover", "empty": false } }],
+          "mark": "point"
+        }
+      ]
+    },
+    {
+      "transform": [
+        { "pivot": "source", "value": "consumption", "groupby": ["year"] }
+      ],
+      "mark": "rule",
+      "encoding": {
+        "opacity": {
+          "condition": { "value": 0.3, "param": "hover", "empty": false },
+          "value": 0
+        },
+        "tooltip": [
+          { "timeUnit": "year", "field": "year", "title": "Year" },
+          { "field": "Biofuel", "type": "quantitative", "format": ".2s" },
+          { "field": "Coal", "type": "quantitative", "format": ".2s" },
+          { "field": "Fossil Fuel", "type": "quantitative", "format": ".2s" },
+          { "field": "Gas", "type": "quantitative", "format": ".2s" },
+          { "field": "Hydropower", "type": "quantitative", "format": ".2s" },
+          { "field": "Nuclear", "type": "quantitative", "format": ".2s" },
+          { "field": "Oil", "type": "quantitative", "format": ".2s" },
+          {
+            "field": "Other Renewable",
+            "type": "quantitative",
+            "format": ".2s"
+          },
+          { "field": "Solar Power", "type": "quantitative", "format": ".2s" },
+          { "field": "Wind Power", "type": "quantitative", "format": ".2s" }
+        ]
+      },
+      "params": [
+        {
+          "name": "hover",
+          "select": {
+            "type": "point",
+            "fields": ["year"],
+            "nearest": true,
+            "on": "mouseover",
+            "clear": "mouseout"
+          }
+        }
+      ]
+    },
+    {
+      "mark": { "type": "text", "align": "center", "dx": -420, "dy": -150 },
+      "encoding": {
+        "x": { "value": "width" },
+        "y": { "value": "height" },
+        "text": {
+          "value": "It is important to note that energy generation from fossil fuels have"
+        }
+      }
+    },
+    {
+      "mark": { "type": "text", "align": "center", "dx": -437, "dy": -135 },
+      "encoding": {
+        "x": { "value": "width" },
+        "y": { "value": "height" },
+        "text": {
+          "value": "become more efficient due to technological advancements."
+        }
+      }
+    },
+    {
+      "mark": { "type": "text", "align": "center", "dx": -150, "dy": -30 },
+      "encoding": {
+        "x": { "value": "width" },
+        "y": { "value": "height" },
+        "text": {
+          "value": "Renewable energy still remain behind non-renewable energy."
+        }
+      }
+    }
+  ]
+}

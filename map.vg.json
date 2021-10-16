@@ -1,0 +1,110 @@
+{
+  "$schema": "https://vega.github.io/schema/vega-lite/v5.json",
+  "title": "Renewable Energy in Australia (2008-2019)",
+  "width": 620,
+  "height": 500,
+  "projection": { "type": "mercator" },
+  "params": [
+    {
+      "name": "Year_selection",
+      "value": 2019,
+      "bind": {
+        "input": "range",
+        "min": 2008,
+        "max": 2019,
+        "step": 1,
+        "name": "Select Year: "
+      }
+    }
+  ],
+  "layer": [
+    {
+      "data": {
+        "url": "renewable.csv"
+      },
+      "params": [
+        {
+          "name": "stateHover",
+          "select": { "type": "point", "on": "mouseover" }
+        },
+        { "name": "stateSelect", "select": { "type": "point" } }
+      ],
+      "transform": [
+        {
+          "lookup": "Name",
+          "from": {
+            "data": {
+              "url": "states.geo.topojson",
+              "format": { "type": "topojson", "feature": "states.geo" }
+            },
+            "key": "properties.STATE_NAME"
+          },
+          "as": "geo"
+        },
+        { "filter": "datum.Year == Year_selection" },
+        { "calculate": "datum.percent/100", "as": "decimal" }
+      ],
+      "mark": { "type": "geoshape", "stroke": "black", "cursor": "pointer" },
+      "encoding": {
+        "shape": { "field": "geo", "type": "geojson" },
+        "color": {
+          "field": "percent",
+          "type": "quantitative",
+          "scale": { "scheme": "purpleblue", "domain": [0.1, 100] },
+          "title": "% of Renewable Energy"
+        },
+        "fillOpacity": {
+          "condition": { "param": "stateSelect", "value": 1 },
+          "value": 0.2
+        },
+        "strokeWidth": {
+          "condition": [
+            { "param": "stateSelect", "empty": false, "value": 2 },
+            { "param": "stateHover", "empty": false, "value": 1 }
+          ],
+          "value": 0
+        },
+        "tooltip": [
+          { "field": "Name", "type": "nominal", "title": "State" },
+          {
+            "field": "decimal",
+            "type": "quantitative",
+            "format": ".2%",
+            "title": "% of Renewable Energy"
+          },
+          { "field": "Year", "type": "nominal" }
+        ]
+      }
+    },
+    {
+      "data": { "url": "renewable.csv" },
+      "encoding": {
+        "longitude": { "field": "lon", "type": "quantitative" },
+        "latitude": { "field": "lat", "type": "quantitative" }
+      },
+      "layer": [
+        {
+          "mark": { "type": "text" },
+          "transform": [{ "calculate": "datum.percent/100", "as": "decimal" }],
+          "encoding": {
+            "text": { "field": "Name", "type": "nominal" },
+            "tooltip": [
+              {
+                "field": "Name",
+                "type": "nominal",
+                "title": "State"
+              },
+              {
+                "field": "decimal",
+                "type": "quantitative",
+                "format": ".2%",
+                "title": "% of Renewable Energy"
+              },
+              { "field": "Year", "type": "nominal" }
+            ]
+          }
+        }
+      ]
+    }
+  ]
+}

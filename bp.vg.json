@@ -1,0 +1,186 @@
+{
+  "$schema": "https://vega.github.io/schema/vega-lite/v5.json",
+  "width": 620,
+  "height": 400,
+  "title": "Renewable Energy and CO2 Emission (2019)",
+  "data": {
+    "url": "todo.csv"
+  },
+  "params": [
+    {
+      "name": "Population_limit",
+      "value": 0,
+      "bind": {
+        "input": "range",
+        "min": 0,
+        "max": 210000000,
+        "step": 100000,
+        "name": "Population Limit: "
+      }
+    },
+    {
+      "name": "Continent_selection",
+      "bind": {
+        "input": "select",
+        "options": [
+          null,
+          "Africa",
+          "Asia",
+          "Europe",
+          "North America",
+          "Oceania",
+          "South America"
+        ],
+        "labels": [
+          "Show All",
+          "Africa",
+          "Asia",
+          "Europe",
+          "North America",
+          "Oceania",
+          "South America"
+        ],
+        "name": "Select a Continent: "
+      }
+    }
+  ],
+  "transform": [
+    {
+      "filter": "Continent_selection == null || datum.Continent == Continent_selection"
+    },
+    { "filter": "datum.Population > Population_limit" }
+  ],
+  "encoding": {
+    "x": {
+      "field": "Norm_CO2",
+      "type": "quantitative",
+      "title": "CO2 Emission (In Million Tonnes) per 1,000,000 Population",
+      "axis": { "tickCount": 15 },
+      "scale": { "type": "log", "domain": [0.5, 40] }
+    },
+    "y": {
+      "field": "%RenewableEnergy",
+      "type": "quantitative",
+      "title": "% of Renewable Energy",
+      "axis": { "tickCount": 15 },
+      "scale": { "domain": [0.001, 80] }
+    }
+  },
+  "layer": [
+    {
+      "selection": {
+        "continent_highlight": {
+          "type": "multi",
+          "fields": ["Continent"],
+          "bind": "legend"
+        }
+      },
+      "mark": "circle",
+      "encoding": {
+        "size": {
+          "field": "Population",
+          "type": "quantitative",
+          "scale": {
+            "type": "threshold",
+            "domain": [
+              1000000, 50000000, 100000000, 150000000, 1000000000, 1500000000
+            ],
+            "range": [10, 25, 50, 150, 200, 300, 400]
+          },
+          "legend": { "format": ".2s" }
+        },
+        "color": {
+          "field": "Continent",
+          "type": "nominal",
+          "scale": {
+            "domain": [
+              "Africa",
+              "Asia",
+              "Europe",
+              "North America",
+              "Oceania",
+              "South America"
+            ],
+            "range": [
+              "#B7A196",
+              "#FCB5B5",
+              "#DB4C40",
+              "#8B1E3F",
+              "#89BD9E",
+              "#102542"
+            ]
+          }
+        },
+        "opacity": {
+          "condition": { "selection": "continent_highlight", "value": 1 },
+          "value": 0.2
+        },
+        "tooltip": [
+          { "field": "Country", "type": "nominal" },
+          { "field": "Continent", "type": "nominal" },
+          { "field": "Population", "type": "quantitative", "format": "," },
+          {
+            "field": "Norm_CO2",
+            "type": "quantitative",
+            "format": ".2f",
+            "title": "CO2 Emission per Million"
+          },
+          {
+            "field": "CO2_Produced",
+            "type": "quantitative",
+            "format": ".2f",
+            "title": "CO2 Produced (in M Tonnes)"
+          },
+          {
+            "field": "%RenewableEnergy",
+            "type": "quantitative",
+            "format": ".2f",
+            "title": "% of Renewable Energy"
+          }
+        ]
+      }
+    },
+    {
+      "mark": {
+        "type": "text",
+        "align": "right",
+        "baseline": "middle",
+        "dx": -12,
+        "fontSize": 11.5
+      },
+      "encoding": {
+        "text": { "field": "Country", "type": "nominal" },
+        "color": { "value": "black" },
+        "opacity": {
+          "condition": {
+            "test": "datum['Country'] == 'Pakistan' || datum['Country'] == 'China' || datum['Country'] == 'United States' || datum['Country'] == 'Australia' || datum['Country'] == 'Brazil' || datum['Country'] == 'Iceland' || datum['Country'] == 'Norway' || datum['Country'] == 'Canada'",
+            "value": 1
+          },
+          "value": 0
+        },
+        "tooltip": [
+          { "field": "Country", "type": "nominal" },
+          { "field": "Continent", "type": "nominal" },
+          { "field": "Population", "type": "quantitative", "format": "," },
+          {
+            "field": "Norm_CO2",
+            "type": "quantitative",
+            "format": ".2f",
+            "title": "CO2 Emission per Million"
+          },
+          {
+            "field": "CO2_Produced",
+            "type": "quantitative",
+            "format": ".2f",
+            "title": "CO2 Produced (in M Tonnes)"
+          },
+          {
+            "field": "%RenewableEnergy",
+            "type": "quantitative",
+            "format": ".2f"
+          }
+        ]
+      }
+    }
+  ]
+}

@@ -1,0 +1,109 @@
+{
+  "$schema": "https://vega.github.io/schema/vega-lite/v4.json",
+  "width": 625,
+  "height": 400,
+  "title": "Global Energy Consumption from Non-Renewable Sources (2019)",
+  "data": {
+    "url": "nonrenew_sources.csv"
+  },
+  "layer": [
+    {
+      "selection": { "brush": { "type": "interval", "encodings": ["x"] } },
+      "mark": "bar",
+      "encoding": {
+        "x": {
+          "field": "Source",
+          "type": "ordinal",
+          "title": "Non-Renewable Energy Sources",
+          "axis": { "labelAngle": 0 },
+          "sort": { "op": "sum", "field": "Consumption", "order": "descending" }
+        },
+        "y": {
+          "field": "Consumption",
+          "type": "quantitative",
+          "title": "Consumption of Energy (TWh)"
+        },
+        "color": {
+          "field": "Consumption",
+          "type": "quantitative",
+          "scale": { "scheme": "reds" }
+        },
+        "tooltip": [
+          { "field": "Source", "type": "nominal", "title": "Energy Source" },
+          {
+            "field": "Consumption",
+            "type": "quantitative",
+            "title": "Energy Consumption",
+            "format": ".2f"
+          }
+        ],
+        "opacity": {
+          "condition": { "selection": "brush", "value": 1 },
+          "value": 0.7
+        }
+      }
+    },
+    {
+      "transform": [{ "filter": { "selection": "brush" } }],
+      "mark": "rule",
+      "encoding": {
+        "y": {
+          "aggregate": "mean",
+          "field": "Consumption",
+          "type": "quantitative"
+        },
+        "color": { "value": "#0392ff" },
+        "size": { "value": 3 }
+      }
+    },
+    {
+      "mark": { "type": "text", "align": "center", "dx": -110, "dy": -385 },
+      "encoding": {
+        "x": { "value": "width" },
+        "y": { "value": "height" },
+        "text": { "value": "Drag in the visualisation to interact with it" }
+      }
+    },
+    {
+      "mark": { "type": "text", "align": "center", "dx": -370, "dy": -335 },
+      "encoding": {
+        "x": { "value": "width" },
+        "y": { "value": "height" },
+        "text": {
+          "value": "Fossil fuel's versatility allows them to generate energy"
+        }
+      }
+    },
+    {
+      "mark": { "type": "text", "align": "center", "dx": -370, "dy": -323 },
+      "encoding": {
+        "x": { "value": "width" },
+        "y": { "value": "height" },
+        "text": {
+          "value": "in almost everything e.g. transportation and electricity."
+        }
+      }
+    },
+    {
+      "mark": { "type": "text", "align": "center", "dx": -200, "dy": -175 },
+      "encoding": {
+        "x": { "value": "width" },
+        "y": { "value": "height" },
+        "text": {
+          "value": "Fossil fuels are so versatile that it can be used to make"
+        }
+      }
+    },
+    {
+      "mark": { "type": "text", "align": "center", "dx": -193.5, "dy": -165 },
+      "encoding": {
+        "x": { "value": "width" },
+        "y": { "value": "height" },
+        "text": {
+          "value": "coal, oil and gas. This may explain our over-reliance on it."
+        }
+      }
+    }
+  ],
+  "config": {}
+}

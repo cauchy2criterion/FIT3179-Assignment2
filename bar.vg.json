@@ -1,0 +1,111 @@
+{
+  "$schema": "https://vega.github.io/schema/vega-lite/v4.json",
+  "width": 629,
+  "height": 400,
+  "title": "Global Energy Consumption from Renewable Sources (2019)",
+  "data": {
+    "url": "renew_sources.csv"
+  },
+  "layer": [
+    {
+      "selection": { "brush": { "type": "interval", "encodings": ["x"] } },
+      "mark": "bar",
+      "encoding": {
+        "x": {
+          "field": "Source",
+          "type": "ordinal",
+          "title": "Renewable Energy Sources",
+          "axis": { "labelAngle": 0 },
+          "sort": { "op": "sum", "field": "Consumption", "order": "descending" }
+        },
+        "y": {
+          "field": "Consumption",
+          "type": "quantitative",
+          "title": "Consumption of Energy (TWh)"
+        },
+        "color": {
+          "field": "Consumption",
+          "type": "quantitative",
+          "scale": { "scheme": "greens" }
+        },
+        "tooltip": [
+          { "field": "Source", "type": "nominal", "title": "Energy Source" },
+          {
+            "field": "Consumption",
+            "type": "quantitative",
+            "title": "Energy Consumption",
+            "format": ".2f"
+          }
+        ],
+        "opacity": {
+          "condition": { "selection": "brush", "value": 1 },
+          "value": 0.7
+        }
+      }
+    },
+    {
+      "transform": [{ "filter": { "selection": "brush" } }],
+      "mark": "rule",
+      "encoding": {
+        "y": {
+          "aggregate": "mean",
+          "field": "Consumption",
+          "type": "quantitative"
+        },
+        "color": { "value": "firebrick" },
+        "size": { "value": 3 }
+      }
+    },
+    {
+      "mark": { "type": "text", "align": "center", "dx": -110, "dy": -385 },
+      "encoding": {
+        "x": { "value": "width" },
+        "y": { "value": "height" },
+        "text": { "value": "Drag in the visualisation to interact with it" }
+      }
+    },
+    {
+      "mark": { "type": "text", "align": "center", "dx": -380, "dy": -340 },
+      "encoding": {
+        "x": { "value": "width" },
+        "y": { "value": "height" },
+        "text": {
+          "value": "Hydropower is the most efficient at energy extraction"
+        }
+      }
+    },
+    {
+      "mark": { "type": "text", "align": "center", "dx": -426, "dy": -325 },
+      "encoding": {
+        "x": { "value": "width" },
+        "y": { "value": "height" },
+        "text": { "value": "of out all the renewable energies." }
+      }
+    },
+    {
+      "mark": { "type": "text", "align": "center", "dx": -381.5, "dy": -310 },
+      "encoding": {
+        "x": { "value": "width" },
+        "y": { "value": "height" },
+        "text": { "value": "Hence, generates the most energy to be consumed." }
+      }
+    },
+    {
+      "mark": { "type": "text", "align": "center", "dx": -102, "dy": -100 },
+      "encoding": {
+        "x": { "value": "width" },
+        "y": { "value": "height" },
+        "text": { "value": "Less known renewable sources include" }
+      }
+    },
+    {
+      "mark": { "type": "text", "align": "center", "dx": -130, "dy": -90 },
+      "encoding": {
+        "x": { "value": "width" },
+        "y": { "value": "height" },
+        "text": { "value": "biomass waste, hydrogen gas and geothermal heat." }
+      }
+    }
+  ],
+  "config": {}
+}

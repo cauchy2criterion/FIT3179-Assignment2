@@ -1,0 +1,11 @@
+source,consumption,type
+Biofuel,1036.053,renewable
+Hydro,9825.257,renewable
+Solar,1723.294,renewable
+Wind,3498.87,renewable
+Other Renewable,1548.999,renewable
+Coal,43189.409,non-renewable
+Fossil Fuel,132177.936,non-renewable
+Gas,38443.698,non-renewable
+Oil,50544.832,non-renewable
+Nuclear Fission,6556.464,both

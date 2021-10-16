@@ -1,0 +1,66 @@
+* {
+  font-family: "Nunito Sans", sans-serif;
+}
+h1 {
+  text-align: center;
+  font-weight: bolder;
+  font-size: 40px;
+  margin-top: 10px;
+}
+.h2 {
+  text-align: center;
+  margin-top: 10px;
+  font-size: 20px;
+}
+body {
+  background-color: skyblue;
+}
+.page {
+  width: 1200px;
+  background-color: white;
+  margin: auto;
+  margin-top: 5px;
+  margin-bottom: 5px;
+  padding: 50px;
+  padding-top: 35px;
+}
+.vis-box {
+  padding: 10px;
+  width: 100%;
+}
+.titlepara {
+  text-align: justify;
+  margin-top: 10px;
+  margin-left: 20px;
+  margin-right: 20px;
+  font-size: 25px;
+}
+.pure-g {
+  margin-bottom: 25px;
+}
+.textcontent {
+  padding-right: 40px;
+  font-size: 25px;
+  text-align: justify;
+}
+#map {
+  margin-left: 50px;
+}
+#renew_bar {
+  margin: 15px;
+}
+#non_bar {
+  margin: 10px;
+}
+.green {
+  color: yellowgreen;
+}
+.red {
+  color: crimson;
+}
+.bold {
+  font-weight: 00;
+}
+#bubble {
+  margin-left: 2000px;
+}
